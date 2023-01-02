@@ -57,11 +57,3 @@ class PostgresClient:
                 schemaname != 'information_schema';
         """
         return self.read_sql(sql)
-
-    def load_sample_data(self) -> pd.DataFrame:
-        return sns.load_dataset("diamonds")
-
-    def write_sample_data_to_db(self):
-        self.sample_data.to_sql(
-            "diamonds", con=self.create_engine(), if_exists="replace"
-        )
