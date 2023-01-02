@@ -1,5 +1,4 @@
 import pandas as pd
-import seaborn as sns
 import sqlalchemy
 
 
@@ -17,7 +16,6 @@ class PostgresClient:
         self.database = database
         self.host = host
         self.port = port
-        self.sample_data = self.load_sample_data()
 
     def __repr__(self):
         return (
@@ -34,6 +32,9 @@ class PostgresClient:
     def read_sql(self, query: str) -> pd.DataFrame:
         return pd.read_sql(query, con=self.create_engine())
 
+    def to_sql(self, df: pd.DataFrame, table: str, if_exists: str = "replace"):
+        df.to_sql(table, con=self.create_engine(), if_exists=if_exists, index=False)
+
     def execute_sql(self, sql: str):
         with self.create_engine().connect() as connection:
             connection.execute(sql)
@@ -45,8 +46,8 @@ class PostgresClient:
         sql = f"INSERT INTO {table} ({columns}) VALUES ({values})"
         self.execute_sql(sql)
 
-    def delete(self, table: str, condition: str):
-        sql = f"DELETE FROM {table} WHERE {condition}"
+    def delete(self, table: str, condition: str = None):
+        sql = f"DELETE FROM {table} {condition}"
         self.execute_sql(sql)
 
     def list_tables(self) -> pd.DataFrame:
