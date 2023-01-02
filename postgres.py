@@ -40,10 +40,10 @@ class PostgresClient:
             connection.execute(sql)
 
     def insert(self, table: str, columns: list, values: list):
-        columns = [f'"{i}"' for i in columns]
-        columns = ", ".join(columns)
-        values = ", ".join(values)
-        sql = f"INSERT INTO {table} ({columns}) VALUES ({values})"
+        columns_dubble_quoted = [f'"{i}"' for i in columns]
+        columns_str = ", ".join(columns_dubble_quoted)
+        values_str = ", ".join(values)
+        sql = f"INSERT INTO {table} ({columns_str}) VALUES ({values_str})"
         self.execute_sql(sql)
 
     def delete(self, table: str, condition: str = None):
