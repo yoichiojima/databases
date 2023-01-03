@@ -1,7 +1,7 @@
 import pandas as pd
 import seaborn as sns
 
-from postgres import PostgresClient
+from postgres_client import PostgresClient
 
 psql = PostgresClient(user="readwrite_user", password="postgres", database="p")
 
