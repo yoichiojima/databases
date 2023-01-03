@@ -58,3 +58,18 @@ class PostgresClient:
                 schemaname != 'information_schema';
         """
         return self.read_sql(sql)
+
+    def list_columns(self, table: str) -> pd.DataFrame:
+        sql = f"""
+            SELECT *
+            FROM information_schema.columns
+            WHERE table_name = '{table}';
+        """
+        return self.read_sql(sql)
+
+    def list_roles(self) -> pd.DataFrame:
+        sql = """
+            SELECT rolname
+            FROM pg_roles
+        """
+        return self.read_sql(sql)

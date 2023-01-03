@@ -6,28 +6,28 @@ cheatsheet: https://postgrescheatsheet.com/#/tables
 ### maneging roles
 create firts custom roles for specific manipulations like readonly and readwrite. then inherit to other users for application use.
 
-```postgres
+```sql
 CREATE DATABASE db;
 
-<!-- create readonly role -->
+-- create readonly role
 CREATE ROLE readonly;
 REVOKE ALL PRIVILEGES ON DATABASE db FROM readonly;
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM readonly;
 GRANT SELECT ON ALL TABLES IN SCHEMA public TO readonly;
 
 
-<!-- create readwrite role -->
+-- create readwrite role
 CREATE ROLE readwrite;
 REVOKE ALL PRIVILEGES ON DATABASE db FROM readwrite;
 GRANT CREATE ON DATABASE db FROM readwrite;
 REVOKE ALL PRIVILEGES ON ALL TABLES IN SCHEMA public FROM readwrite;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO readwrite;
 
-<!-- create readonly user -->
+-- create readonly user
 CREATE USER user_readonly WITH PASSWORD 'password';
 GRANT readonly TO user_readonly;
 
-<!-- create writeonly user -->
+-- create writeonly user
 CREATE USER user_readwrite WITH PASSWORD 'password';
 GRANT readwrite TO user_readwrite;
 ```
